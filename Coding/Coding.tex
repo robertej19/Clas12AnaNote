@@ -1,0 +1,102 @@
+\section{Coding notes}
+\href{https://github.com/drewkenjo/dst_monitoring/wiki/Syntactic-sugar}{Syntatic Sugar}
+
+
+\section{How to Enable Multi-Threading}
+
+    \subsection{1}
+        At ifarm, check if you have ~/.groovy  directory
+        Otherwise create one.
+
+    \subsection{2}
+        Download Andrey’s sugar.
+        
+        \begin{lstlisting}
+            cd ~/.groovy
+            wget https://github.com/drewkenjo/dst_monitoring/releases/download/v0/sugar.jar
+        \end{lstlisting}
+
+
+    \subsection{3}
+        The standard way to access coatjava at ifarm is adding following commands at \comtilde/.cshrc or \comtilde/.bashrc depending on which shell you use.
+        
+        \begin{lstlisting}
+        source /group/clas12/packages/setup.csh
+        module load clas12/pro
+        \end{lstlisting}
+        
+        However, this doesn’t allow you to edit bin files.
+        Simply copy run-groovy at any directory with your permission, say \comtilde/.groovy, i.e.
+        
+        \begin{lstlisting}
+        cp $COATJAVA/bin/run-groovy ~/.groovy/
+        \end{lstlisting}
+        
+        edit \comtilde/.groovy/run-groovy ’s line 59 from -Xmx2048m to -Xmx4096m. This will increase memory that can be used in your ifarm.
+        
+    \subsection{4}
+        I guess you have your own standalone analysis script that runs as a main file.
+        The idea is to convert this as a class, and call from other main file.
+        This is not necessary for parallel computing, but this helps to run multiple analysis at one time and to maintain scripts tidy.
+        
+        Actually, groovy supports usage of both class and main likewise python’s ‘ if \_\_name\_\_ == “main” '.
+        You can put a closure with the same name of the class. See \href{https://stackoverflow.com/questions/52543035/check-if-groovy-script-is-being-executed-directly}{here}
+        
+    \subsection{5}
+        I have standalone analysis script epg.groovy (, which is main itself), \href{https://github.com/Sangbaek/analysis_code/blob/analysis/sangbaek/epg.groovy}{here}
+        The code’s structure is like this:\\
+        line 1–17: import libraries\\
+        line 18–127: defining histograms\\
+        line 128–319: main loop to read files (ignore line 131–154 because nowadays Nick is placing inbending and outbending in separate directories)
+        line 320–384: saving histograms\\
+        
+        I converted that to a class file dvcs.groovy, \href{https://github.com/Sangbaek/analysis_code/blob/analysis/sangbaek/dvcs.groovy}{here}
+        Here’re how-to’s.\\
+        1) Add package name at line 1\\
+        2) Add  import java.util.concurrent.ConcurrentHashMap at line 19\\
+        3) class name at line 22. class dvcs\{ for this case\\
+        4) Change histograms to be used for ConcurrentHashMap. Please compare line 24–60 of dvcs.groovy to 18–127 of epg.groovy.\\
+        5) add def processEvent(event)\{ before the loop starts (line 80). The loop contents don’t have to differ from your previous main file.
+        6) Remove all histogram saving steps (e.g. line 320-384 of my epg.groovy)\\
+        7) Instead, you can set up your histogram's name and directory directly when you fill the histogram,
+        e.g.) hists.computeIfAbsent("/epg/elec\_polar\_sec"+ele\_sec, h\_polar\_rate).fill(Math.toDegrees(ele.theta()))
+        This will save histograms at /epg/elec\_polar\_sec1–/epg/elec\_polar\_sec6
+        Andrey’s sugar will deal with directory structures so that you don’t have to "out.mkdir(dir); out.cd(dir); out.addDataSet(hist)” manually.
+        
+        By the way, with Andrey’s sugar, you can now add or subtract LorentzVector like def VmissG = beam + target - ele - pro at line 109.\\
+        
+    \subsection{6}
+        Now download \href{https://github.com/Sangbaek/analysis_code/blob/analysis/sangbaek/run.groovy}{this}\\
+        Change line 22 of run.groovy to your own class name.\\
+        To run this,\\
+        
+        run-groovy sangbaek/run.groovy `find /cache/clas12/rg-a/production/recon/fall2018/torus-1/pass1/v0/dst/train/skim8/ -name "*.hipo”`
+        
+    \subsection{7}
+        
+        
+        
+        As for 3, I forgot to tell you that line 5–7 needs to be changed as
+        
+        \begin{lstlisting}
+        CLARA_HOME=$COATJAVA/bin/..
+        CLAS12DIR=$COATJAVA/bin/..
+        CLAS12DIR=$COATJAVA/bin/.. ; export CLAS12DIR
+        .
+        
+        \end{lstlisting}
+        
+        
+        
+        To use your edited run-groovy, there are two ways that I know of.\\
+        
+        First way is to include following line at \comtilde/.cshrc.\\
+        alias run-groovy /home/sangbaek/.groovy/run-groovy\\
+        
+        Second one is to include following shebang line at your groovy scripts like below.\\
+   
+        \begin{lstlisting}     
+        #!/home/sangbaek/.groovy/run-groovy\\
+        \end{lstlisting}       
+        
+        I find the first one easier.
