@@ -1,0 +1,89 @@
+Step 1 – End of July – MVP – cross section data points, uncertainties not included
+Step 2 – End of August – 2.0 – data points with all uncertainties included – very large error bars
+Step 3 – continuing – nail down uncertainties
+
+
+https://clas12.discourse.group/latest
+
+
+
+The first is kind of a broad general question
+CLAS6 produced papers on deeply virtual pi0 production, including an analysis note in 2011. I’ve largely been using that as a guide for this similar CLAS12 analysis. This might be too broad of a question, but are there things that stick out to those people who were involved in the CLAS6 work as something that should be handled differently this time around, are there upgrades in methods of analysis, e.g. using EXCLURAD for radiative corrections, etc? Or non-obvious things that were done in CLAS6 but cannot be done in CLAS12
+
+Radiative corrections (Bobby to work with Valery and Francois and Kyungseon as needed)
+
+For event generator we have aao_rad can generate radiatied pi0 events in resoncane region use 2007 model
+Put parameterization from valerly’s paper, can cover up to whatever Q2 range covered in the paper, beyond that we put some general Q2 behaviour
+For Exclurad we have similar model, in end may have to iterate a few times to improve the model
+Exlclurad specifically for resonance region, theoretically should be correct, input probably needs to be updated, can put Valery’s new parameterization to cover higher range. Should not be a real issue to implement it because same thing was done for AAORad. High q2 cannot be covered because parameterization only goes to CLAS6 range
+FX: the cruicail thing is to fold in the radiative corrections with acceptance and efficiens. Best mothod is to use fast monte carlo
+
+Get in touch with Valery and Kyongseon for radiative corrections
+
+
+
+What is the status of monte carlo for this process? Im aware of aao_rad as a generator, is this the best option and is there anyone I can email about its use? I have some questions about it
+
+
+
+
+Regarding centralized information, like list of good run, efficiencies or uncertatineis of common detectors, where will all this information be stored? Just in text files online somewhere?
+
+
+
+
+For our next meeting we will have a somewhat different format. All students working on their thesis should will prepare 1 slide with questions they have encountered in their work and wrestled with or any analysis issues that may be of interest to other students and senior participants could possibly help with.
+So, please come prepared with 1 slide and your tough questions to the next meeting.
+
+
+Can someone point me to an example of a (groovy / java) implementation of calculating luminosity ?
+How are we, in the code, working out luminosity (can anyone share an actu example file)
+Monte-Carlo
+Generator (aao_rad) – can we use same one from CLAS6 and scale up to CLAS12 kinematics
+Background merging
+
+
+Do we worry about photons going into Central Detector?
+
+Any suggestions on how to best us CLAS6 analysis for CLAS12 analysis?
+
+How can I best use CLA6 pi0 cross section analysis?
+
+Exlcusivity cuts the same?
+
+E.g. can I use the same analytical structure function for radiatice corrections used in the CLAS6 analysis?
+
+
+
+
+fix HTML situation
+Slides - 
+Google drive spreadsheet
+Analysis doc, hosted on analysis notes
+
+
+
+Post slides from 7/7 milner group meeting
+
+need make an initial cut on photon energies
+use aao_rad or no_rad etc. to define what energy is needed for photon energy cut
+
+Write up how everything is being defined (e.g. inner dettector using status 1000, etc.)
+
+make sure that when you have no signal, you do not see a signal
+
+Use pi0 mass when using epgg cut, since we are already thinking we have the pi0 mass
+
+Make a 2d plot of missing mass and missing energy
+
+Know where any hard coded numbers are coming from
+
+Instead of saying "pretty good" give a quantitative measure (within 1 simga, etc
+
+Distinguish between what you have to do and what you expect others to do
+when will you have track reconstruction, etc. 
+What do you need from collaboration
+
+share with other groups 1 at a time - how to get advice from collaboration most effectively, latifa, FX, volker, valery, 1 on 1, have a dedicated BJ call
+
+Emphasize non-duplicaiton of work

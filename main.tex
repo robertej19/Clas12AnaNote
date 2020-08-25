@@ -20,6 +20,7 @@
 
 \newcommand{\DVEP}{DV$\pi$P }
 \newcommand{\QS}{Q$^2$}
+\newcommand{\DST}{\href{https://clasweb.jlab.org/wiki/index.php/CLAS12_DSTs}{CLAS12 DST Documentation}}
 \newcommand{\XB}{x$_B$}
 \newcommand{\phit}{$\phi$}
 \newcommand{\rexn}{$e + p \rightarrow e' + p' + \pi^0$ }
@@ -38,6 +39,9 @@
 \title{CLAS12 \DVEP Analysis Note}
 \author{R. Johnston}
 \date{\today}
+
+https://github.com/robertej19/analysis_code/projects/1
+
 
 \begin{document}
 \maketitle
@@ -103,6 +107,7 @@ Using Event Builder Cuts:
 
 \chapter{Analysis Method}
     \input{AnaOver/AnaOver}
+    \input{AnalysisFlow/Luminosity}
 
 \begin{figure}
     \centering
@@ -112,4 +117,65 @@ Using Event Builder Cuts:
 \end{figure}
 
 
+
+
+
+
+
+
+
+
+Dear All,
+
+I assembled a wikipage to document the minutes of our first and future meetings, this can be found under the "Minutes" tab. Additional tabs are designed to document each member's respective work under the category their work falls under. If I missed a member or if you did not submit your presentation please email me.
+
+https://clasweb.jlab.org/wiki/index.php/DVCS/DVMP_Joint_Analysis_Group#tab=Overview
+
+
+
+
+
+
 \end{document}
+
+Dear Andrey,
+
+Could you send us a link to the github for aao_rad and aao_norad with some instructions so that Bobby can follow up for his pi0 analysis?  
+
+Dear Bobby,
+
+aao_rad and aao_norad are event generators for exclusive pi0 and pi+ channels with/without radiative effects.  They are written in Fortran.  The program was initially developed by Volker Burkert long time ago for the resonance region, then has been evolved for many years and recently extended to DIS region even though lots of things need to be done.  Try this to see whether it works.  
+
+Thanks.
+
+Best regards, Kyungseon
+
+
+Dear Stefan,
+
+Could you upload the program (C++ version, perhaps in Githup with some instructions) that Kemal Tezgin recently wrote in order to calculate the pi0/pi+ channel observables based on the most recent GK model calculations?  Thanks.
+
+Best regards, Kyungseon
+
+
+Dear Kyungseon,
+
+I have attached the program to calculate the single terms of the pi0 
+cross-section based on the GK model.
+Its only one file and relatively easy to use. The instructions are in 
+the first few rows of the file.
+The output can be modified in the main routine at the end of the file.
+
+Best regards,
+Stefan --- this file is name Pi_GK_Vegas.cpp
+
+
+Main ToDo:
+
+Hi Bobby,
+Please take a look at README:
+https://github.com/drewkenjo/aao_norad
+It has instructions how to compile, run and configure the program.
+Please don't hesitate to ask questions!
+Best,
+Andrey.
